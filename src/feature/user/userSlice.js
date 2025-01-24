@@ -1,30 +1,26 @@
 const initialUserState = {
   fullname: '',
   createdAt: '',
-  nationlId: 0
+  nationalId: ''
 }
 
-function userReducer (state = initialUserState, action) {
+export const userReducer = (state = initialUserState, action) => {
   switch (action.type) {
-    case 'user/createUser':
+    case 'user/createUser': {
       return {
         fullname: action.payload.fullname,
-        nationlId: action.payLoan.nationlId,
-        createdAt: Date.toISOString()
+        nationalId: action.payload.nationalId,
+        createdAt: new Date().toISOString()
       }
+    }
     default:
       return state
   }
 }
 
-function createUser () {
+export function createUser (fullname, nationalId) {
   return {
     type: 'user/createUser',
-    payload: { fullname: user.name, nationlId: user.nationlId }
+    payload: { fullname, nationalId }
   }
 }
-
-const store = createStore(
-  combineReducers({ accaunt: accauntReducer, user: userReducer })
-)
-console.log(store.getState())

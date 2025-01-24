@@ -1,46 +1,59 @@
-const initialState = {
-  balance: 0,
-  loan: 0,
-  loanPurpose: ''
-}
-export const accauntReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'accaunt/deposit':
-      return { ...state, balance: state.balance + action.payload }
-    case 'accaunt/withdraw':
-      return { ...state, balance: state.balance - action.payload }
-    case 'accaunt/requestLoan':
-      return {
-        ...state,
-        loan: action.payload.amount,
-        loanPurpose: action.payload.purpose,
-        balance: state.balance + action.payload.amount
-      }
-    case 'accaunt/payLoan':
-      return {
-        ...state,
-        balance: state.balance - state.loan,
-        loan: 0,
-        loanPurpose: ''
-      }
-
-    default:
-      return state
-  }
+const initialAccountState = {
+    balance: 0,
+    loan: 0,
+    loanPurpose: ""
 }
 
-function depositAction (param) {
-  return { type: 'accaunt/deposit', payload: param }
+export const accountReducer = (state = initialAccountState, action) => {
+    switch (action.type) {
+        case "account/deposit": {
+            return {
+                ...state,
+                balance: state.balance + action.payload
+            }
+        }
+        case "account/withdraw": {
+            return {
+                ...state,
+                balance: state.balance - action.payload
+            }
+        }
+        case "account/requestLoan": {
+            return {
+                ...state, loan: action.payload.amount, loanPurpose: action.payload.purpose, balance: state.balance + action.payload.amount
+            }
+        }
+        case "account/payLoan": {
+            return { ...state, balance: state.balance - state.loan, loan: 0, loanPurpose: "" }
+        }
+        default:
+            return state;
+    }
 }
 
-function withdrawAction (param) {
-  return { type: 'accaunt/withdraw', payload: param }
+export function depositAction(amount) {
+    return {
+        type: "account/deposit",
+        payload: amount
+    }
 }
 
-function requestLoan (param) {
-  return { type: 'accaunt/requestLoan', payload: param }
+export function withdrawAction(amount) {
+    return {
+        type: "account/withdraw",
+        payload: amount
+    }
 }
 
-function payLoan (param) {
-  return { type: 'accaunt/payLoan', payload: param }
+export function requestLoanAction(loan) {
+    return {
+        type: "account/requestLoan",
+        payload: loan
+    }
+}
+
+export function payLoanAction() {
+    return {
+        type: "account/payLoan",
+    }
 }
