@@ -1,59 +1,39 @@
+import { createSlice } from '@reduxjs/toolkit'
+
 const initialAccountState = {
-    balance: 0,
-    loan: 0,
-    loanPurpose: ""
+  balance: 1,
+  loan: 0,
+  loanPurpose: '',
+  loading: false
 }
 
-export const accountReducer = (state = initialAccountState, action) => {
-    switch (action.type) {
-        case "account/deposit": {
-            return {
-                ...state,
-                balance: state.balance + action.payload
-            }
-        }
-        case "account/withdraw": {
-            return {
-                ...state,
-                balance: state.balance - action.payload
-            }
-        }
-        case "account/requestLoan": {
-            return {
-                ...state, loan: action.payload.amount, loanPurpose: action.payload.purpose, balance: state.balance + action.payload.amount
-            }
-        }
-        case "account/payLoan": {
-            return { ...state, balance: state.balance - state.loan, loan: 0, loanPurpose: "" }
-        }
-        default:
-            return state;
+const accountReducer = createSlice({
+  name: 'account',
+  initialState: initialAccountState,
+  reducers: {
+    deposit: (state, action) => {
+      state.balance += action.payload
+      state.loading = false
+    },
+    withdraw: (state, action) => {
+      state.balance -= action.payload
+    },
+    requestLoan: (state, action) => {
+      state.loan = action.payload.amount
+      state.loanPurpose = action.payload.purpose
+      state.balance += action.payload.amount
+    },
+    payLoan: (state, action) => {
+      state.balance -= state.loan
+      state.loan = 0
+      state.loanPurpose = ''
+    },
+    loading: (state, action) => {
+      state.loading = true
     }
-}
+  }
+})
 
-export function depositAction(amount) {
-    return {
-        type: "account/deposit",
-        payload: amount
-    }
-}
-
-export function withdrawAction(amount) {
-    return {
-        type: "account/withdraw",
-        payload: amount
-    }
-}
-
-export function requestLoanAction(loan) {
-    return {
-        type: "account/requestLoan",
-        payload: loan
-    }
-}
-
-export function payLoanAction() {
-    return {
-        type: "account/payLoan",
-    }
-}
+export default accountReducer.reducer
+export const { deposit, withdraw, requestLoan, payLoan, loading } =
+  accountReducer.actions

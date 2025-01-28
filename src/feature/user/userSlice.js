@@ -1,26 +1,23 @@
+import { createSlice } from '@reduxjs/toolkit'
+
 const initialUserState = {
-  fullname: '',
+  fullName: '',
   createdAt: '',
   nationalId: ''
 }
 
-export const userReducer = (state = initialUserState, action) => {
-  switch (action.type) {
-    case 'user/createUser': {
-      return {
-        fullname: action.payload.fullname,
-        nationalId: action.payload.nationalId,
-        createdAt: new Date().toISOString()
-      }
+const userSlice = createSlice({
+  name: 'user',
+  initialState: initialUserState,
+  reducers: {
+    createUser (state, action) {
+      state.fullName = action.payload.fullName
+      state.nationalId = action.payload.nationalId
+      state.createdAt = new Date().toISOString()
     }
-    default:
-      return state
   }
-}
+})
 
-export function createUser (fullname, nationalId) {
-  return {
-    type: 'user/createUser',
-    payload: { fullname, nationalId }
-  }
-}
+export const { createUser } = userSlice.actions
+
+export default userSlice.reducer

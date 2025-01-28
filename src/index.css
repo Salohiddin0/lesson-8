@@ -23,7 +23,7 @@ button {
   padding: 32px;
 }
 
-.inputs > * + * {
+.inputs>*+* {
   margin-top: 20px;
 }
 
